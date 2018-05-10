@@ -74,6 +74,8 @@ def plot_data(feature, label, periods):
     plt.ylabel("Label")
     plt.xlabel(feature_name)
     plt.scatter(feature_values[:300], label[:300])
+    colors.clear()
+    RSMEs.clear()
     colors.extend(cm.coolwarm(x) for x in np.linspace(-1, 1, periods))
 
 
