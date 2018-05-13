@@ -17,7 +17,6 @@ feature_columns = [tf.feature_column.numeric_column("rooms")]
 # STEP 2: Declare model training configs
 batch_size = 1
 num_steps = 100
-num_repeats = None  # Repeat indefinitely
 learning_rate = 0.0000001
 
 # STEP 2: Use gradient descent as the optimizer for training the model
@@ -35,9 +34,8 @@ linear_regressor = tf.estimator.LinearRegressor(
 def get_examples():
     # Construct a TensorFlow dataset
     ds = tf.data.Dataset.from_tensor_slices((my_feature, my_label))
-    # STEP 2: Configure batching, repeating as shuffling
+    # STEP 2: Configure batching and shuffling
     ds = ds.batch(batch_size)
-    ds = ds.repeat(num_repeats)
     ds = ds.shuffle(len(my_label))
     return ds
 
@@ -45,8 +43,6 @@ def get_examples():
 # Train the model
 linear_regressor.train(input_fn=get_examples, steps=num_steps)
 
-# STEP 2: Limit prediction repeat to 1
-num_repeats = 1
 # Make predictions
 predictions = linear_regressor.predict(input_fn=get_examples)
 

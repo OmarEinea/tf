@@ -40,7 +40,6 @@ def get_examples():
     ds = tf.data.Dataset.from_tensor_slices((my_feature, my_label))
     # Configure batching, repeating as shuffling
     ds = ds.batch(batch_size)
-    ds = ds.repeat(num_repeats)
     ds = ds.shuffle(len(my_label))
     return ds
 
@@ -50,11 +49,9 @@ plot_data(my_feature, my_label, periods)
 
 # STEP 3: Do training on periods
 for period in range(periods):
-    num_repeats = None
     # Train the model
     linear_regressor.train(input_fn=get_examples, steps=steps_per_period)
 
-    num_repeats = 1
     # Make predictions
     predictions = linear_regressor.predict(input_fn=get_examples)
 
