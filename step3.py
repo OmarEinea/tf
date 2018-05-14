@@ -59,6 +59,6 @@ for period in range(periods):
     print_stats(predictions, my_label, detailed=False)
 
     # Plot trained model prediction line and a scatter plot of actual data
-    plot_model_by_period(linear_regressor, my_feature, my_label, period)
+    plot_model(linear_regressor, my_feature, my_label)
 
-show_rmses()
+show_all()

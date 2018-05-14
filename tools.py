@@ -1,12 +1,11 @@
-from matplotlib import pyplot as plt
+from matplotlib import cm, pyplot as plt
+from sklearn import metrics
 import numpy as np
 import pandas as pd
-from matplotlib import cm
-from sklearn import metrics
 import math
 pd.options.display.float_format = '{:.1f}'.format
-colors = []
 RSMEs = []
+XYs = []
 
 
 def print_stats(predictions, label, detailed=True):
@@ -74,12 +73,11 @@ def plot_data(feature, label, periods):
     plt.ylabel("Label")
     plt.xlabel(feature_name)
     plt.scatter(feature_values[:300], label[:300])
-    colors.clear()
     RSMEs.clear()
-    colors.extend(cm.coolwarm(x) for x in np.linspace(-1, 1, periods))
+    XYs.clear()
 
 
-def plot_model_by_period(regressor, feature, label, period):
+def plot_model(regressor, feature, label):
     feature_name, feature_values = feature.copy().popitem()
 
     # Retrieve the final weight and bias generated during training.
@@ -94,11 +92,15 @@ def plot_model_by_period(regressor, feature, label, period):
         ), feature_values.min()
     )
     y_extents = weight * x_extents + bias
-    plt.plot(x_extents, y_extents, color=colors[period])
+    XYs.append((x_extents, y_extents))
 
 
-def show_rmses():
-    print("Minimum Root Mean Squared Error: {:.3f}".format(min(RSMEs)))
+def show_all():
+    results = sorted(zip(RSMEs, XYs), reverse=True)
+    print("Minimum Root Mean Squared Error: {:.3f}".format(results[-1][0]))
+    for index, result in enumerate(results):
+        xy = result[1]
+        plt.plot(xy[0], xy[1], color=cm.coolwarm(index/len(XYs)))
     plt.subplot(1, 2, 2)
     plt.ylabel('RMSE')
     plt.xlabel('Periods')
