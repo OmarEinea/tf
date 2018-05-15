@@ -45,7 +45,7 @@ def get_examples():
 
 
 # STEP 3: Draw scatter plot of data once
-plot_data(my_feature, my_label, periods)
+plot_data(my_feature, my_label)
 
 # STEP 3: Do training on periods
 for period in range(periods):

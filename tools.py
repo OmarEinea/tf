@@ -65,7 +65,7 @@ def plot_results(regressor, feature, label):
     plt.show()
 
 
-def plot_data(feature, label, periods):
+def plot_data(feature, label):
     feature_name, feature_values = feature.copy().popitem()
     plt.figure(figsize=(15, 6))
     plt.subplot(1, 2, 1)
